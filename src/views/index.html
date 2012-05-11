@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Bus Countdown</title>
+        <meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    	<meta name="description" content="Bus Countdown">
+    	<meta name="author" content="Leo Staples">
+    	<link rel="apple-touch-icon-precomposed" href="/bus/web/img/bus-precomposed.png">
+        <link rel="stylesheet" href="/bus/web/css/styles.min.css" />
+    </head>
+    <body>
+    	<h1>Bus Countdown</h1>
+		<div id="wrapper">
+			{% for stop in stops %}
+				{% if stop %} 
+					<div id="stop{{stop.id}}" class="stop">
+					<h4>{{stop.name}} <span>{{stop.direction}}</span></h4>
+					<div class="subhead">Updated:<span class="updated"></span></div>
+					<ul class="buses"></ul>
+					<ul class="scale"></ul>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+    </body>
+    <script type="text/javascript" src="/bus/web/js/modestmaps.min.js"></script>
+    <script type="text/javascript" src="/bus/web/js/tile.stamen.min.js"></script>
+    <script type="text/javascript" src="/bus/web/js/follower.min.js"></script>
+    <script type="text/javascript" src="/bus/web/js/zepto.min.js"></script>
+    <script type="text/javascript" src="/bus/web/js/bus-countdown.min.js"></script>
+    <script type="text/javascript">	
+		Zepto(function($){
+		  	{% for stop in stops %}
+				{% if stop %}
+					BusCountdown.getCountdownData({{stop.id}});
+				{% endif %}
+			{% else %}
+				if (navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(function (position) {
+						BusCountdown.getNearestStops(position.coords.latitude,position.coords.longitude);	
+					});
+				} else {
+					$("#wrapper").html("<p>Sorry but we are unable to determine your location.</p>");
+				}
+			{% endfor %}
+		});
+	</script>
+</html>
