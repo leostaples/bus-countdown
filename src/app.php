@@ -5,11 +5,11 @@ require_once 'phar://'.__DIR__.'/../vendor/silex/silex.phar/autoload.php';
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Bus\Countdown;
+use BusCountdown\Countdown;
 
 $app = new Silex\Application();
 
-$app['autoloader']->registerNamespaces(array('Bus' => __DIR__,));
+$app['autoloader']->registerNamespaces(array('BusCountdown' => __DIR__,));
 $app['countdown'] = function() {
     return new Countdown();
 };
